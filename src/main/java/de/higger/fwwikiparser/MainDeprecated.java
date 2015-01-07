@@ -7,13 +7,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.higger.fwwikiparser.helper.PropertieHelper;
-import de.higger.fwwikiparser.parser.CharaParser;
-import de.higger.fwwikiparser.parser.DefenceArmsParser;
-import de.higger.fwwikiparser.parser.NPCCategoryParser;
-import de.higger.fwwikiparser.parser.OffenceArmsParser;
+import de.higger.fwwikiparser.parser.deprecated.CharaParser;
+import de.higger.fwwikiparser.parser.deprecated.DefenceArmsParser;
+import de.higger.fwwikiparser.parser.deprecated.NPCCategoryParser;
+import de.higger.fwwikiparser.parser.deprecated.OffenceArmsParser;
 import de.higger.fwwikiparser.vo.BaseParseItem;
 
-public class Main {
+public class MainDeprecated {
 	
 	
 	public static void main(String[] args) throws IOException {
