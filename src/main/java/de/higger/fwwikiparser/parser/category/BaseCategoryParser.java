@@ -132,7 +132,7 @@ public abstract class BaseCategoryParser<E extends BaseParseItem> extends BasePa
 					allocatedSiteList.add(scannedLinks.get(siteId));
 					
 					if (allocatedSiteList.size() > 0) {
-						break;
+//						break;
 					}
 				}
 			}

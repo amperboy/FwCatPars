@@ -3,6 +3,7 @@ package de.higger.fwwikiparser;
 import static de.higger.fwwikiparser.helper.PropertieHelper.getPropertieHelperInstance;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import de.higger.fwwikiparser.converter.parse_item.ParseItemToSQLExpressionInterpreter;
@@ -17,6 +18,11 @@ public class Main {
 //		parseItems(new NPCCategoryParser());
 //		parseItems(new AbilityCategoryParser());
 		parseItems(new OffenceCategoryParser());
+		
+		
+		List<String> sites = new LinkedList<String>();
+		sites.add("/index.php/Doppelaxt");
+		
 		
 	}
 
