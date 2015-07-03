@@ -69,11 +69,6 @@ public abstract class BaseArmVO extends BaseParseItem {
 				+ getUrl() + "]";
 	}
 
-	@Override
-	public String exportSQL() {
-		String raceId = requiredRace == null ? "null" : "'"+requiredRace.getId()+"'";
-		return "('"+getName()+"','"+getUrl()+"','"+strength+"','"+ (isNondurable ? 1 : 0) +"','"+requiredPower+"','"+requiredIntelligence+"','"+requiredCourses+"',"+raceId+");";
-	}
 	
 	
 

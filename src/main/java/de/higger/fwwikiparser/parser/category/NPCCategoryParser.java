@@ -1,4 +1,7 @@
-package de.higger.fwwikiparser.parser.deprecated;
+package de.higger.fwwikiparser.parser.category;
+
+import static de.higger.fwwikiparser.helper.ParseFunctionHelper.getLowerValue;
+import static de.higger.fwwikiparser.helper.ParseFunctionHelper.getUpperValue;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,22 +17,21 @@ import de.higger.fwwikiparser.helper.PropertieHelper;
 import de.higger.fwwikiparser.vo.NPCVO;
 
 public class NPCCategoryParser extends BaseCategoryParser<NPCVO> {
-	
-	public static class NPCSiteParser extends BaseSingleItemParser<NPCVO> {
 
-		private String baseUrl;
+	public class NPCParseJob extends ParseSiteJob {
+
+		private Pattern intervalPattern = Pattern.compile("([^0-9]*)([\\.0-9]+[ -]*[\\.0-9]*)([^0-9]*)");
 		
-		private Pattern intervalPattern;
-		
-		public NPCSiteParser(String baseUrl) {
-			this.baseUrl = baseUrl;
-			this.intervalPattern = Pattern.compile("([^0-9]*)([\\.0-9]+[ -]*[\\.0-9]*)([^0-9]*)");
+		public NPCParseJob(List<String> sitesToParse) {
+			super(sitesToParse);
 		}
 
 		@Override
 		public NPCVO parseSite(String siteToParse) throws IOException {
+			
 			NPCVO npcvo = new NPCVO();
 			
+			String baseUrl = PropertieHelper.getPropertieHelperInstance().getBaseURL();
 			Document doc = getDocument(baseUrl+siteToParse);
 			Element npcLayout = doc.select("div#mw-content-text").first();
 			
@@ -110,45 +112,12 @@ public class NPCCategoryParser extends BaseCategoryParser<NPCVO> {
 		}
 		
 	}
-
+	
 	@Override
-	public List<NPCVO> parseCategorie(String baseUrl) throws IOException {
-
-		resetSites();
-		String categoryStart = PropertieHelper.getInstance().getPropertie("wiki.parser.category.npcs");
-		
-		parsePageOfCat(baseUrl, categoryStart);	
-		
-		cleanSites();
-		
-		List<NPCVO> npcs= parseItems(baseUrl, new NPCSiteParser(baseUrl));
-
-		return npcs;
+	protected String getCategoryStart() {
+		return PropertieHelper.getPropertieHelperInstance().getProperty("wiki.parser.category.npcs");
 	}
-
-	private void parsePageOfCat(String baseUrl, String pageLinkRelative)
-			throws IOException {
-		Document doc = getDocument(baseUrl+pageLinkRelative);
-		Element pagesElement = doc.select("div#mw-pages").first();
-		
-		Elements links = pagesElement.select("tbody a");
-		Elements navigationLinks = pagesElement.select("a");
-		navigationLinks.removeAll(links);
-
-		for (Element element : links) {
-			String linkToParse = element.attr("href");
-			addSite(linkToParse);
-		}	
-		
-		for (Element element : navigationLinks) {
-			if(element.text().contains("nächste")) {
-				String nextPage = element.attr("href");
-				parsePageOfCat(baseUrl, nextPage);
-				break;
-			}
-		}
-	}
-
+	
 	@Override
 	protected String[] getIgnoredSubSites() {
 		String[] exclustions = {
@@ -165,10 +134,20 @@ public class NPCCategoryParser extends BaseCategoryParser<NPCVO> {
 			"/index.php/Unangreifbare_NPCs",
 			"/index.php/Unique-NPC",
 			"/index.php/Vollimmunit%C3%A4t",
-			"/index.php/Diener_von_Beispieluser",
-				
+			"/index.php/Diener_von_Beispieluser"				
 		};
 		return exclustions;
 	}
+
+	@Override
+	protected ParseSiteJob createParseSiteJob(
+			List<String> allocatedSiteList) {
+		
+		return new NPCParseJob(allocatedSiteList);
+	}
+
+
+
+
 
 }

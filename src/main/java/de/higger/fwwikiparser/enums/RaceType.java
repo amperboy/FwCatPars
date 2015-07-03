@@ -1,10 +1,5 @@
 package de.higger.fwwikiparser.enums;
 
-
-/*
- * 
- * 
- */
 public enum RaceType implements IType {
 	
 	ARBEITER((short) 1, "Mensch/Arbeiter"),

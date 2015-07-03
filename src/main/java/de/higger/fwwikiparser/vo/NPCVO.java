@@ -72,11 +72,4 @@ public class NPCVO extends BaseParseItem {
 				+ getUrl() + "]";
 	}
 
-	@Override
-	public String exportSQL() {
-		byte npcTypeId = npcType == null ? (byte) 0 : npcType.getId();
-		
-		return "AddNPC('"+getName()+"','"+getUrl()+"','"+npcTypeId+"','"+minStrength+"','"+maxStrength+"','"+minHealth+"','"+maxHealth+"','"+droppedMoney+"');";
-	}
-	
 }
