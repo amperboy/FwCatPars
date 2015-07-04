@@ -31,8 +31,5 @@ public abstract class BaseParseItem {
 	public boolean isExportable() {
 		return isExportable;
 	}
-	
-	
-	public abstract String exportSQL();
 
 }

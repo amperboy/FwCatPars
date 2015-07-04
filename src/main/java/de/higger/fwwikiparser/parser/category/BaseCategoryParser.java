@@ -1,4 +1,4 @@
-package de.higger.fwwikiparser.parser;
+package de.higger.fwwikiparser.parser.category;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,39 +7,63 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import de.higger.fwwikiparser.helper.PropertieHelper;
+import de.higger.fwwikiparser.parser.BaseParser;
 import de.higger.fwwikiparser.vo.BaseParseItem;
 
-public abstract class BaseCategoryParser<E extends BaseParseItem> {
+public abstract class BaseCategoryParser<E extends BaseParseItem> extends BaseParser {
 	
-	public class ParseSiteJob extends Thread {
+	public abstract class ParseSiteJob extends Thread {
 
-		List<String> sitesToParse;
+		private final List<String> sitesToParse;
+		private List<E> parsedObjects;
 		
 		public ParseSiteJob(List<String> sitesToParse) {
 			this.sitesToParse = sitesToParse;
 		}
 
+		@Override
+		public void run() {
+			
+			List<E> parsedObjects = new LinkedList<E>();
+			
+			for (String siteToParse : sitesToParse) {
+				
+				E parsedItem;
+				try {
+					
+					parsedItem = parseSite(siteToParse);
+					parsedObjects.add(parsedItem);
+					
+				} catch (IOException e) {
+					System.err.println("Failed to parse site: "+siteToParse);
+				}
+			}
+			
+			this.parsedObjects = parsedObjects;
+			
+		}
+
+		public abstract E parseSite(String siteToParse) throws IOException;
+		
 		public Collection<? extends E> getParsedObjects() {
-			return new LinkedList<E>();
+			return parsedObjects;
 		}
 		
 	}
-	
-	private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0";
-	private static final int DEFAULT_TIMEOUT = 10000;
 
-	public void parseCategory(String baseUrl) throws IOException {
+	public List<E> parseCategory(String baseUrl) throws IOException {
+		
 		List<String> links = getItemsOfCategory(baseUrl);
 		
-		parseSiteInThreads(baseUrl,links);
+		List<E> parsedItems = parseSiteInThreads(baseUrl,links);
+		
+		return parsedItems;
 	}
 	
 
@@ -54,7 +78,6 @@ public abstract class BaseCategoryParser<E extends BaseParseItem> {
 		return scannedLinks;
 		
 	}
-	
 
 	protected abstract String getCategoryStart();
 	
@@ -81,15 +104,6 @@ public abstract class BaseCategoryParser<E extends BaseParseItem> {
 		}
 	}
 	
-	private Document getDocument(String uri) throws IOException {
-		Document doc = Jsoup.connect(uri)
-				.userAgent(USER_AGENT)
-				.timeout(DEFAULT_TIMEOUT)
-				.get();
-		
-		return doc;
-	}
-	
 	private void applyFilter(List<String> scannedLinks) {
 		List<String> ignoredSite = new ArrayList<String>(Arrays.asList(getIgnoredSubSites()));
 		
@@ -101,9 +115,10 @@ public abstract class BaseCategoryParser<E extends BaseParseItem> {
 	protected abstract String[] getIgnoredSubSites();
 	
 	private List<E> parseSiteInThreads(String baseUrl, List<String> scannedLinks) {
+		
 		long start = System.currentTimeMillis();
 		
-		short threads = Short.valueOf(PropertieHelper.getInstance().getPropertie("run.threads","1"));
+		short threads = Short.valueOf(PropertieHelper.getPropertieHelperInstance().getProperty("run.threads","1"));
 		
 		List<ParseSiteJob> parsingJobs = new LinkedList<ParseSiteJob>();
 		
@@ -112,16 +127,17 @@ public abstract class BaseCategoryParser<E extends BaseParseItem> {
 			List<String> allocatedSiteList = new LinkedList<String>();
 
 			for (int siteId = 0; siteId < scannedLinks.size(); siteId++) {
+				
 				if (siteId % threads == threadId) {
 					allocatedSiteList.add(scannedLinks.get(siteId));
 					
-					if (allocatedSiteList.size() > 3) {
+					if (allocatedSiteList.size() > 0) {
 //						break;
 					}
 				}
 			}
 			
-			parsingJobs.add(new ParseSiteJob(allocatedSiteList));
+			parsingJobs.add(createParseSiteJob(allocatedSiteList));
 		}
 		
 		for (ParseSiteJob thread : parsingJobs) {
@@ -131,10 +147,14 @@ public abstract class BaseCategoryParser<E extends BaseParseItem> {
 		List<E> items = new LinkedList<E>();
 		
 		for (ParseSiteJob thread : parsingJobs) {
+			
 			try {
+				
 				thread.join();
 				items.addAll(thread.getParsedObjects());
+				
 			} catch (InterruptedException e) {
+				
 				System.err.println("thread sync. failed");
 			}
 		}
@@ -143,4 +163,7 @@ public abstract class BaseCategoryParser<E extends BaseParseItem> {
 		
 		return items;
 	}
+
+
+	protected abstract ParseSiteJob createParseSiteJob(List<String> allocatedSiteList);
 }

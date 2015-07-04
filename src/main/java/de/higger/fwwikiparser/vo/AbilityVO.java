@@ -2,7 +2,7 @@ package de.higger.fwwikiparser.vo;
 
 import de.higger.fwwikiparser.enums.RaceType;
 
-public class CharaVO extends BaseParseItem {
+public class AbilityVO extends BaseParseItem {
 
 	private Integer baseTime;
 	private Short maxLevel;
@@ -38,12 +38,6 @@ public class CharaVO extends BaseParseItem {
 		return "CharaVO [baseTime=" + baseTime + ", maxLevel=" + maxLevel
 				+ ", raceBonus=" + raceBonus + ", getName()=" + getName()
 				+ ", getUrl()=" + getUrl() + "]";
-	}
-
-	@Override
-	public String exportSQL() {
-//		short raceId = raceBonus == null ? (short) 0 : raceBonus.getId();
-		return "AddChara('"+getName()+"','"+getUrl()+"','"+maxLevel+"','"+baseTime+"');";
 	}
 	
 }
