@@ -6,7 +6,7 @@ public class DefenceArmTOSQLExpression extends ArmToSQLExpression<DefenceArmVO> 
 
 	@Override
 	protected String getProcedureName() {
-		return "AddDefenceArm";
+		return "   CALL AddDefenceArm";
 	}
 
 }

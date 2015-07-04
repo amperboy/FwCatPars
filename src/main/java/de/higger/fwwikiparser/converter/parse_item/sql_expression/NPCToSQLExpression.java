@@ -12,7 +12,7 @@ public class NPCToSQLExpression implements BaseParseItemExpression<NPCVO, String
 		
 		byte npcTypeId = npcType == null ? (byte) 0 : npcType.getId();
 		
-		StringBuilder sql = new StringBuilder("AddNPC('");
+		StringBuilder sql = new StringBuilder("   CALL AddNPC('");
 		
 		sql.append(npc.getName());
 		sql.append("','");

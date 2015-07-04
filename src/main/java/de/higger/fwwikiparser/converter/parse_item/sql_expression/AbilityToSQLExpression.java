@@ -7,7 +7,7 @@ public class AbilityToSQLExpression implements BaseParseItemExpression<AbilityVO
 
 	public String convert(AbilityVO ability) {
 		
-		StringBuilder sql = new StringBuilder("AddChara('");
+		StringBuilder sql = new StringBuilder("   CALL AddChara('");
 		sql.append(ability.getName());
 		sql.append("','");
 		sql.append(ability.getUrl());

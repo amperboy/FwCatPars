@@ -6,7 +6,7 @@ public class OffenceArmTOSQLExpression extends ArmToSQLExpression<OffenceArmVO> 
 
 	@Override
 	protected String getProcedureName() {
-		return "AddOffenceArm";
+		return "   CALL AddOffenceArm";
 	}
 
 }
