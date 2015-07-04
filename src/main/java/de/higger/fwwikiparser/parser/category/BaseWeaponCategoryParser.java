@@ -17,9 +17,9 @@ public abstract class BaseWeaponCategoryParser<E extends BaseArmVO> extends Base
 
 	public abstract class BaseWeaponParseJob extends BaseCategoryParser<E>.ParseSiteJob {
 
-		private static final String REQUIRED_POWER_PATTERN = "(Mindeststärke: )([0-9]+[.0-9]*)";
-		private static final String REQUIRED_COURSES_PATTERN = "(Mindestakademielimit: )([0-9]+[.0-9]*)";
-		private static final String REQUIRED_INTELLIGENCE_PATTERN = "(Mindestintelligenz: )([0-9]+[.0-9]*)";
+		private static final String REQUIRED_POWER_PATTERN = "(Mindeststärke:[^0-9]*)([0-9]+[.0-9]*)(.*)";
+		private static final String REQUIRED_COURSES_PATTERN = "(Mindestakademielimit:[^0-9]*)([0-9]+[.0-9]*)(.*)";
+		private static final String REQUIRED_INTELLIGENCE_PATTERN = "(Mindestintelligenz:[^0-9]*)([0-9]+[.0-9]*)(.*)";
 		private static final String REQUIRED_RACE_PATTERN = "(Rasse: )(.*)";
 		private static final String STRENGTH_PATTERN = "(.*Stärke:[^0-9]*)([0-9]+[.0-9]*)(.*)";
 
