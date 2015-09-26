@@ -9,7 +9,7 @@ public class DefenceCategoryParser extends BaseWeaponCategoryParser<DefenceArmVO
 
 	public class DefenceParseJob extends BaseWeaponParseJob {
 
-		public DefenceParseJob(List<String> sitesToParse) {
+		public DefenceParseJob(List<Link> sitesToParse) {
 			super(sitesToParse);
 		}
 
@@ -38,7 +38,7 @@ public class DefenceCategoryParser extends BaseWeaponCategoryParser<DefenceArmVO
 	}
 	
 	@Override
-	protected ParseSiteJob createParseSiteJob(List<String> allocatedSiteList) {
+	protected ParseSiteJob createParseSiteJob(List<Link> allocatedSiteList) {
 		return new DefenceParseJob(allocatedSiteList);
 	}
 

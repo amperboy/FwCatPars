@@ -22,17 +22,17 @@ public class NPCCategoryParser extends BaseCategoryParser<NPCVO> {
 
 		private Pattern intervalPattern = Pattern.compile("([^0-9]*)([\\.0-9]+[ -]*[\\.0-9]*)([^0-9]*)");
 		
-		public NPCParseJob(List<String> sitesToParse) {
+		public NPCParseJob(List<Link> sitesToParse) {
 			super(sitesToParse);
 		}
 
 		@Override
-		public NPCVO parseSite(String siteToParse) throws IOException {
+		public NPCVO parseSite(Link siteToParse) throws IOException {
 			
 			NPCVO npcvo = new NPCVO();
 			
 			String baseUrl = PropertieHelper.getPropertieHelperInstance().getBaseURL();
-			Document doc = getDocument(baseUrl+siteToParse);
+			Document doc = getDocument(baseUrl+siteToParse.getPath());
 			Element npcLayout = doc.select("div#mw-content-text").first();
 			
 			Element npcDesc = npcLayout.select("div.layout_desc").first();
@@ -100,7 +100,7 @@ public class NPCCategoryParser extends BaseCategoryParser<NPCVO> {
 				}
 				
 				
-				npcvo.setUrl(siteToParse);
+				npcvo.setUrl(siteToParse.getPath());
 				npcvo.setName(name);
 				npcvo.setNpcType(NPCType.getTypeByName(type));
 			}
@@ -141,7 +141,7 @@ public class NPCCategoryParser extends BaseCategoryParser<NPCVO> {
 
 	@Override
 	protected ParseSiteJob createParseSiteJob(
-			List<String> allocatedSiteList) {
+			List<Link> allocatedSiteList) {
 		
 		return new NPCParseJob(allocatedSiteList);
 	}

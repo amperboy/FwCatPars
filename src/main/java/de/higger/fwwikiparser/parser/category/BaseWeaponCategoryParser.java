@@ -23,20 +23,20 @@ public abstract class BaseWeaponCategoryParser<E extends BaseArmVO> extends Base
 		private static final String REQUIRED_RACE_PATTERN = "(Rasse: )(.*)";
 		private static final String STRENGTH_PATTERN = "(.*Stärke:[^0-9]*)([0-9]+[.0-9]*)(.*)";
 
-		public BaseWeaponParseJob(List<String> sitesToParse) {
+		public BaseWeaponParseJob(List<Link> sitesToParse) {
 			super(sitesToParse);
 		}
 
 		protected abstract E createObject();	
 		
 		@Override
-		public E parseSite(String siteToParse) throws IOException {
+		public E parseSite(Link siteToParse) throws IOException {
 
 			E baseWeaponVO = createObject();
-			baseWeaponVO.setUrl(siteToParse);
+			baseWeaponVO.setUrl(siteToParse.getPath());
 			
 			String baseUrl = PropertieHelper.getPropertieHelperInstance().getBaseURL();
-			Document doc = getDocument(baseUrl+siteToParse);
+			Document doc = getDocument(baseUrl+siteToParse.getPath());
 			
 			Element weaponLayout = doc.select("div#mw-content-text").first();
 			

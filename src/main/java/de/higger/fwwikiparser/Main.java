@@ -10,6 +10,7 @@ import de.higger.fwwikiparser.converter.parse_item.ParseItemToSQLExpressionInter
 import de.higger.fwwikiparser.parser.category.AbilityCategoryParser;
 import de.higger.fwwikiparser.parser.category.BaseCategoryParser;
 import de.higger.fwwikiparser.parser.category.DefenceCategoryParser;
+import de.higger.fwwikiparser.parser.category.ItemCategoryParser;
 import de.higger.fwwikiparser.parser.category.NPCCategoryParser;
 import de.higger.fwwikiparser.parser.category.OffenceCategoryParser;
 import de.higger.fwwikiparser.vo.BaseParseItem;
@@ -24,6 +25,7 @@ public class Main {
 		parseItems(fileWriter.getPrintStream(), new AbilityCategoryParser());
 		parseItems(fileWriter.getPrintStream(), new OffenceCategoryParser());
 		parseItems(fileWriter.getPrintStream(), new DefenceCategoryParser());
+		parseItems(fileWriter.getPrintStream(), new ItemCategoryParser());
 		
 		fileWriter.close();
 		
