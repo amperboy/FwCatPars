@@ -9,7 +9,7 @@ public class OffenceCategoryParser extends BaseWeaponCategoryParser<OffenceArmVO
 
 	public class OffenceParseJob extends BaseWeaponParseJob {
 
-		public OffenceParseJob(List<String> sitesToParse) {
+		public OffenceParseJob(List<Link> sitesToParse) {
 			super(sitesToParse);
 		}
 
@@ -38,7 +38,7 @@ public class OffenceCategoryParser extends BaseWeaponCategoryParser<OffenceArmVO
 	}
 	
 	@Override
-	protected ParseSiteJob createParseSiteJob(List<String> allocatedSiteList) {
+	protected ParseSiteJob createParseSiteJob(List<Link> allocatedSiteList) {
 		return new OffenceParseJob(allocatedSiteList);
 	}
 

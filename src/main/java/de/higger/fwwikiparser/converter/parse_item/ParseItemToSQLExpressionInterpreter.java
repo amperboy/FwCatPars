@@ -5,12 +5,14 @@ import java.util.Map;
 
 import de.higger.fwwikiparser.converter.Interpreter;
 import de.higger.fwwikiparser.converter.parse_item.sql_expression.AbilityToSQLExpression;
-import de.higger.fwwikiparser.converter.parse_item.sql_expression.DefenceArmTOSQLExpression;
+import de.higger.fwwikiparser.converter.parse_item.sql_expression.DefenceArmToSQLExpression;
+import de.higger.fwwikiparser.converter.parse_item.sql_expression.ItemToSQLExpression;
 import de.higger.fwwikiparser.converter.parse_item.sql_expression.NPCToSQLExpression;
-import de.higger.fwwikiparser.converter.parse_item.sql_expression.OffenceArmTOSQLExpression;
+import de.higger.fwwikiparser.converter.parse_item.sql_expression.OffenceArmToSQLExpression;
 import de.higger.fwwikiparser.vo.AbilityVO;
 import de.higger.fwwikiparser.vo.BaseParseItem;
 import de.higger.fwwikiparser.vo.DefenceArmVO;
+import de.higger.fwwikiparser.vo.ItemVO;
 import de.higger.fwwikiparser.vo.NPCVO;
 import de.higger.fwwikiparser.vo.OffenceArmVO;
 
@@ -26,8 +28,9 @@ public class ParseItemToSQLExpressionInterpreter implements Interpreter {
 		
 		expressionMap.put(NPCVO.class, new NPCToSQLExpression());
 		expressionMap.put(AbilityVO.class, new AbilityToSQLExpression());
-		expressionMap.put(DefenceArmVO.class, new DefenceArmTOSQLExpression());
-		expressionMap.put(OffenceArmVO.class, new OffenceArmTOSQLExpression());
+		expressionMap.put(DefenceArmVO.class, new DefenceArmToSQLExpression());
+		expressionMap.put(OffenceArmVO.class, new OffenceArmToSQLExpression());
+		expressionMap.put(ItemVO.class, new ItemToSQLExpression());
 				
 		this.expressionMap = expressionMap;
 		
