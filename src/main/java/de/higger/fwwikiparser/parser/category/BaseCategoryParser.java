@@ -72,9 +72,14 @@ public abstract class BaseCategoryParser<E extends BaseParseItem> extends
 		List<Link> scannedLinks = new LinkedList<Link>();
 
 		scanLinksRecursive(baseUrl, getCategoryStart(), scannedLinks);
+		
 		Collections.sort(scannedLinks);
 		applyFilter(scannedLinks);
 
+		if(scannedLinks.size() == 0) {
+			System.err.println("No parsable links found in class: "+this.getClass().getSimpleName());
+		}
+		
 		return scannedLinks;
 
 	}
@@ -86,7 +91,7 @@ public abstract class BaseCategoryParser<E extends BaseParseItem> extends
 		Document doc = getDocument(baseUrl + pageLinkRelative);
 		Element pagesElement = doc.select("div#mw-pages").first();
 
-		Elements links = pagesElement.select("tbody a");
+		Elements links = pagesElement.select("ul li a");
 		Elements navigationLinks = pagesElement.select("a");
 		navigationLinks.removeAll(links);
 

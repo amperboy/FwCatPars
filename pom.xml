@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.higger</groupId>
 	<artifactId>fwwikiparser</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>Freewar Toolset Data Parser</name>
 	<packaging>jar</packaging>
 	

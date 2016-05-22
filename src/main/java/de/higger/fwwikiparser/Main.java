@@ -25,7 +25,7 @@ public class Main {
 		parseItems(fileWriter.getPrintStream(), new AbilityCategoryParser());
 		parseItems(fileWriter.getPrintStream(), new OffenceCategoryParser());
 		parseItems(fileWriter.getPrintStream(), new DefenceCategoryParser());
-		parseItems(fileWriter.getPrintStream(), new ItemCategoryParser());
+//		parseItems(fileWriter.getPrintStream(), new ItemCategoryParser());
 		
 		fileWriter.close();
 		
